@@ -20,15 +20,15 @@ class CoreIRExtension(Extension):
 class CoreIRBuild(build_ext):
     def run(self):
         if not os.path.isdir(MAPPER_PATH):
-            subprocess.check_call(["git", "submodule", "init"])
-            subprocess.check_call(["git", "submodule", "update"])
+            subprocess.check_call(["git", "submodule", "update", "--init",
+                                   "--recursive"])
 
         build_dir = os.path.join(COREIR_PATH, "build")
         subprocess.check_call(["cmake", "-DSTATIC=ON", ".."], cwd=build_dir)
 
-        subprocess.check_call(["make", "-C", build_dir, "-j2"])
+        subprocess.check_call(["make", "-C", build_dir, "-j4"])
         os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(COREIR_PATH, "lib"))
-        subprocess.check_call(["make", "-C", MAPPER_PATH, "-j2"])
+        subprocess.check_call(["make", "-C", MAPPER_PATH, "-j4"])
 
         # we only have one extension
         assert len(self.extensions) == 1
@@ -50,7 +50,7 @@ setup(
     packages=[
         "jmapper"
     ],
-    version='0.0.3',
+    version='0.0.1',
     author='Keyi Zhang',
     author_email='keyi@stanford.edu',
     description='Mapper for Jade CGRA',
@@ -59,6 +59,6 @@ setup(
     scripts=["bin/mapper"],
     cmdclass=dict(build_ext=CoreIRBuild),
     install_requires=[
-        "jmapper",
+        "coreir",
     ],
 )
