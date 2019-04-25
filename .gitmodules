@@ -1,0 +1,3 @@
+[submodule "CGRAMapper"]
+	path = CGRAMapper
+	url = https://github.com/StanfordAHA/CGRAMapper
