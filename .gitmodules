@@ -1,6 +1,6 @@
 [submodule "CGRAMapper"]
 	path = CGRAMapper
-	url = https://github.com/StanfordAHA/CGRAMapper
+	url = https://github.com/Kuree/CGRAMapper
 [submodule "coreir"]
 	path = coreir
 	url = https://github.com/rdaly525/coreir

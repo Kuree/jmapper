@@ -1,0 +1,27 @@
+language: python
+
+services:
+    - docker
+
+install:
+    - docker pull keyiz/manylinux-coreir
+    - docker run -d --name manylinux --rm -i -t keyiz/manylinux-coreir bash
+
+script:
+    - docker exec manylinux git clone https://github.com/Kuree/jmapper
+    - docker exec -i manylinux bash -c "cd jmapper && git submodule update --init --recursive"
+    - docker exec -i manylinux bash -c "python setup.py bdist_wheel"
+    - docker exec -i manylinux bash -c "auditwheel show dist/*"
+
+after_success:
+    - echo [distutils]                                  > ~/.pypirc
+    - echo index-servers =                             >> ~/.pypirc
+    - echo "  pypi"                                    >> ~/.pypirc
+    - echo                                             >> ~/.pypirc
+    - echo [pypi]                                      >> ~/.pypirc
+    - echo repository=https://upload.pypi.org/legacy/  >> ~/.pypirc
+    - echo username=keyi                               >> ~/.pypirc
+    - echo password=$PYPI_PASSWORD                     >> ~/.pypirc
+    - docker cp ~/.pypirc manylinux:/home/
+    # - docker exec -i manylinux bash -c 'cd jmapper && twine upload --config-file /home/.pypirc wheelhouse/*'
+
