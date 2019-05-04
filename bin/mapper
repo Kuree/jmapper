@@ -3,14 +3,11 @@
 import platform
 import sys
 import os
-import coreir
 import jmapper
 
 LIBRARY_PATH_VAR = "LD_LIBRARY_PATH"
 
-path1 = os.path.abspath(os.path.dirname(coreir.__file__))
-coreir_binary = os.path.join(path1, "coreir")
-path2 = os.path.abspath(os.path.dirname(jmapper.__file__))
-path = f"${path1}:${path2}"
+path = os.path.abspath(os.path.dirname(jmapper.__file__))
+mapper_binary = os.path.join(path1, "cgra-mapper")
 args = " ".join(sys.argv[1:])
-os.system(f"{LIBRARY_PATH_VAR}={path}:${LIBRARY_PATH_VAR} {coreir_binary} {args}")
+os.system(f"{LIBRARY_PATH_VAR}={path}:${LIBRARY_PATH_VAR} {mapper_binary} {args}")
