@@ -50,12 +50,12 @@ setup(
     packages=[
         "jmapper"
     ],
-    version='0.0.2',
+    version='0.0.3',
     author='Keyi Zhang',
     author_email='keyi@stanford.edu',
     description='Mapper for Jade CGRA',
     url="https://github.com/Kuree/jmapper",
-    ext_modules=[CoreIRExtension('mapper')],
+    ext_modules=[CoreIRExtension('jmapper')],
     scripts=["bin/mapper"],
     cmdclass=dict(build_ext=CoreIRBuild),
 )
