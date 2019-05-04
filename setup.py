@@ -35,7 +35,7 @@ class CoreIRBuild(build_ext):
         ext = self.extensions[0]
         extdir = \
             os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
-        extdir = os.path.join(extdir, "mapper")
+        extdir = os.path.join(extdir, "jmapper")
         if not os.path.isdir(extdir):
             os.mkdir(extdir)
 
@@ -50,7 +50,7 @@ setup(
     packages=[
         "jmapper"
     ],
-    version='0.0.3',
+    version='0.0.4',
     author='Keyi Zhang',
     author_email='keyi@stanford.edu',
     description='Mapper for Jade CGRA',
