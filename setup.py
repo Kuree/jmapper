@@ -58,7 +58,4 @@ setup(
     ext_modules=[CoreIRExtension('mapper')],
     scripts=["bin/mapper"],
     cmdclass=dict(build_ext=CoreIRBuild),
-    install_requires=[
-        "coreir",
-    ],
 )
