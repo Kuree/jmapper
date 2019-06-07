@@ -50,7 +50,7 @@ setup(
     packages=[
         "jmapper"
     ],
-    version='0.1.3',
+    version='0.1.4',
     author='Keyi Zhang',
     author_email='keyi@stanford.edu',
     description='Mapper for Jade CGRA',
