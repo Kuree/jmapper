@@ -23,6 +23,11 @@ after_success:
     - echo repository=https://upload.pypi.org/legacy/  >> ~/.pypirc
     - echo username=keyi                               >> ~/.pypirc
     - echo password=$PYPI_PASSWORD                     >> ~/.pypirc
-    - docker cp ~/.pypirc manylinux:/home/
-    - docker exec -i manylinux bash -c 'cd jmapper && twine upload --config-file /home/.pypirc wheelhouse/*'
+
+deploy:
+  - provider: script
+    script: /bin/bash scripts/deploy.sh
+    on:
+      branch: master
+      tags: true
 
