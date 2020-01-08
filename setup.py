@@ -9,7 +9,7 @@ import shutil
 
 MAPPER_PATH = "CGRAMapper"
 COREIR_PATH = "coreir"
-
+LAKELIB_PATH = "BufferMapping"
 
 class CoreIRExtension(Extension):
     def __init__(self, name, sourcedir=''):
@@ -23,10 +23,14 @@ class CoreIRBuild(build_ext):
             subprocess.check_call(["git", "submodule", "update", "--init",
                                    "--recursive"])
 
+        build_dir = os.path.join(LAKELIB_PATH, "cfunc")
+        subprocess.check_call(["make", "-C", build_dir, "lib"])
+        os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(LAKELIB_PATH, "cfunc/bin"))
+
         build_dir = os.path.join(COREIR_PATH, "build")
         subprocess.check_call(["cmake", "-DSTATIC=ON", ".."], cwd=build_dir)
-
-        subprocess.check_call(["make", "-C", build_dir, "-j4"])
+        libs = ["coreir", "coreir-float", "coreir-c", "coreir-commonlib", "coreirsim"]
+        subprocess.check_call(["make", "-C", build_dir, "-j4"] + libs)
         os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(COREIR_PATH, "lib"))
         subprocess.check_call(["make", "-C", MAPPER_PATH, "-j4"])
 
@@ -43,6 +47,8 @@ class CoreIRBuild(build_ext):
         filename = os.path.join(MAPPER_PATH, "bin", "cgra-mapper")
         shutil.copy(filename, extdir)
         filename = os.path.join(MAPPER_PATH, "lib", "libcoreir-cgralib.so")
+        shutil.copy(filename, extdir)
+        filename = os.path.join(LAKELIB_PATH, "cfunc/bin", "libcoreir-lakelib.so")
         shutil.copy(filename, extdir)
 
 setup(
