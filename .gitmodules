@@ -4,3 +4,6 @@
 [submodule "coreir"]
 	path = coreir
 	url = https://github.com/rdaly525/coreir
+[submodule "BufferMapping"]
+	path = BufferMapping
+	url = https://github.com/joyliu37/BufferMapping.git
