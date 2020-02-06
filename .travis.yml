@@ -4,8 +4,8 @@ services:
     - docker
 
 install:
-    - docker pull keyiz/manylinux-coreir
-    - docker run -d --name manylinux --rm -i -t keyiz/manylinux-coreir bash
+    - docker pull keyiz/manylinux
+    - docker run -d --name manylinux --rm -i -t keyiz/manylinux bash
 
 script:
     - docker exec manylinux git clone https://github.com/Kuree/jmapper
