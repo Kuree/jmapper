@@ -11,8 +11,8 @@ script:
     - docker exec manylinux git clone https://github.com/Kuree/jmapper
     - docker exec -i manylinux bash -c "cd jmapper && git submodule update --init --recursive"
     - docker exec -i manylinux bash -c "cd jmapper && python setup.py bdist_wheel"
-    - docker exec -i manylinux bash -c "export LD_LIBRARY_PATH=/jmapper/coreir/lib/:/jmapper/CGRAMapper/lib/ && cd jmapper && auditwheel show dist/*"
-    - docker exec -i manylinux bash -c "export LD_LIBRARY_PATH=/jmapper/coreir/lib/:/jmapper/CGRAMapper/lib/ && cd jmapper && auditwheel repair dist/*"
+    - docker exec -i manylinux bash -c "export LD_LIBRARY_PATH=/pycoreir/coreir-cpp/build/lib:/opt/rh/devtoolset-2/root/usr/lib64:/opt/rh/devtoolset-2/root/usr/lib:/usr/local/lib64:/usr/local/lib:/jmapper/coreir/lib/:/jmapper/CGRAMapper/lib/:/jmapper/BufferMapping/cfunc/bin && cd jmapper && auditwheel show dist/*"
+    - docker exec -i manylinux bash -c "export LD_LIBRARY_PATH=/pycoreir/coreir-cpp/build/lib:/opt/rh/devtoolset-2/root/usr/lib64:/opt/rh/devtoolset-2/root/usr/lib:/usr/local/lib64:/usr/local/lib:/jmapper/coreir/lib/:/jmapper/CGRAMapper/lib/:/jmapper/BufferMapping/cfunc/bin && cd jmapper && auditwheel repair dist/*"
 
 after_success:
     - echo [distutils]                                  > ~/.pypirc
