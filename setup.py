@@ -23,16 +23,16 @@ class CoreIRBuild(build_ext):
             subprocess.check_call(["git", "submodule", "update", "--init",
                                    "--recursive"])
 
-        build_dir = os.path.join(LAKELIB_PATH, "cfunc")
-        subprocess.check_call(["make", "-C", build_dir, "lib"])
-        os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(LAKELIB_PATH, "cfunc/bin"))
-
         build_dir = os.path.join(COREIR_PATH, "build")
         subprocess.check_call(["cmake", "-DSTATIC=ON", ".."], cwd=build_dir)
         libs = ["coreir", "coreir-float", "coreir-c", "coreir-commonlib", "coreirsim"]
         subprocess.check_call(["make", "-C", build_dir, "-j4"] + libs)
         os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(COREIR_PATH, "lib"))
         subprocess.check_call(["make", "-C", MAPPER_PATH, "-j4"])
+
+        build_dir = os.path.join(LAKELIB_PATH, "cfunc")
+        subprocess.check_call(["make", "-C", build_dir, "lib"])
+        os.environ["LIBRARY_PATH"] = os.path.abspath(os.path.join(LAKELIB_PATH, "cfunc/bin"))
 
         # we only have one extension
         assert len(self.extensions) == 1
